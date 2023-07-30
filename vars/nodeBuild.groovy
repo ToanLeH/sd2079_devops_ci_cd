@@ -72,7 +72,7 @@ void call() {
 
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: ecrCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             docker.withRegistry("https://${demoRegistry}", ecrCredential ) {
-                sh "docker login ${demoRegistry} -u ${USERNAME} -p ${PASSWORD}"
+                sh "docker login ${demoRegistry} -u AWS -p ${PASSWORD}"
                 sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
             }
         }
