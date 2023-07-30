@@ -81,7 +81,7 @@ void call() {
 
         withAWS(credentials: awsCredential, region: awsRegion) {
           sh "set +x"
-          sh "eval $(aws ecr get-login --region ${awsRegion} --no-include-email)"
+          sh "eval $(aws ecr get-login --region ap-south-1 --no-include-email)"
           //sh "aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${demoRegistry}"
           sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/${name}:${BUILD_NUMBER}"
           sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
