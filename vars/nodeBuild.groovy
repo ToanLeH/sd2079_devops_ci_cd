@@ -5,7 +5,7 @@ void call() {
     //String publishProject = "src/BookStore.API/BookStore.API.csproj"
     String baseImage     = "node"
     String baseTag       = "lts-buster"
-    //String demoRegistry = "demotraining.azurecr.io"
+    String demoRegistry = "663535708029.dkr.ecr.ap-south-1.amazonaws.com"
     //String checkBranches = "$env.BRANCH_NAME"
     //String[] deployBranches = ['main', 'jenkins']
     //String sonarToken = "sonar-token"
@@ -63,10 +63,17 @@ void call() {
         //     }
         // }
 
-        script{
-            docker.withRegistry(ecrRegistryUrl, 'aws-credentials') {
-                app.push("${BUILD_NUMBER}")
-                app.push("latest")
+        // script{
+        //     docker.withRegistry(ecrRegistryUrl, 'aws-credentials') {
+        //         app.push("${BUILD_NUMBER}")
+        //         app.push("latest")
+        //     }
+        // }
+
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: ecrCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+            docker.withRegistry("https://${demoRegistry}", ecrCredential ) {
+                sh "docker login ${demoRegistry} -u ${USERNAME} -p ${PASSWORD}"
+                sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
             }
         }
     }
