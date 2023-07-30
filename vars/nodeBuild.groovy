@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
-void call(String name = "backend") {
-    
+void call() {
+    String name = "backend"
     //String runtime = "BookStore.API.dll"
     //String publishProject = "src/BookStore.API/BookStore.API.csproj"
     String baseImage     = "node"
