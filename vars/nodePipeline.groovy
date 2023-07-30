@@ -15,7 +15,6 @@ void call(Map pipelineParams) {
             stage ('Build Backend') {
                 when {
                         changeset "./src/backend/*.*"
-                    }
                 }
                 steps {
                     script {
