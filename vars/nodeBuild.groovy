@@ -64,7 +64,7 @@ void call() {
         // }
 
         script{
-            docker.withRegistry(ecrRegistryUrl, "aws-credentials") {
+            docker.withRegistry(ecrRegistryUrl, 'aws-credentials') {
                 app.push("${BUILD_NUMBER}")
                 app.push("latest")
             }
