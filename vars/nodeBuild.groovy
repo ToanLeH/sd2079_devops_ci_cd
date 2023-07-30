@@ -85,8 +85,8 @@ void call() {
         //   sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
         // }
 
-        //, "ecr:${awsCredential}"
-        docker.withRegistry(ecrRegistryUrl) {
+        //
+        docker.withRegistry(ecrRegistryUrl, "ecr:${awsRegion}:${awsCredential}") {
             //docker.image("your-image-name").push()
             sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
             sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
