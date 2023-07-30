@@ -5,11 +5,12 @@ void call() {
     //String publishProject = "src/BookStore.API/BookStore.API.csproj"
     String baseImage     = "node"
     String baseTag       = "lts-buster"
-    String demoRegistry = "demotraining.azurecr.io"
+    //String demoRegistry = "demotraining.azurecr.io"
     //String checkBranches = "$env.BRANCH_NAME"
     //String[] deployBranches = ['main', 'jenkins']
     //String sonarToken = "sonar-token"
-    String ecrCredential = 'ecr-demo-token'
+    String ecrRegistryUrl = "https://663535708029.dkr.ecr.ap-south-1.amazonaws.com"
+    String ecrCredential = 'aws-credentials'
     String k8sCredential = 'ekstest'
     String namespace = "demo"
     //String rununitTest = "dotnet test --no-build -l:trx -c Release -p:DOTNET_RUNTIME_IDENTIFIER=linux-x64 --collect:'XPlat Code Coverage' --verbosity minimal --results-directory ./results"
@@ -61,6 +62,14 @@ void call() {
         //         sh "docker push ${demoRegistry}/demo/${name}:${BUILD_NUMBER}"
         //     }
         // }
+        steps {
+            script{
+                docker.withRegistry(ecrRegistryUrl, ecrCredential) {
+                    app.push("${BUILD_NUMBER}")
+                    app.push("latest")
+                }
+            }
+        }
     }
     // stage ("Deploy To K8S") {
     //     kubeconfig(credentialsId: 'akstest', serverUrl: '') {
