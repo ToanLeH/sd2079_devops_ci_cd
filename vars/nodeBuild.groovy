@@ -62,12 +62,11 @@ void call() {
         //         sh "docker push ${demoRegistry}/demo/${name}:${BUILD_NUMBER}"
         //     }
         // }
-        steps {
-            script{
-                docker.withRegistry(ecrRegistryUrl, ecrCredential) {
-                    app.push("${BUILD_NUMBER}")
-                    app.push("latest")
-                }
+
+        script{
+            docker.withRegistry(ecrRegistryUrl, ecrCredential) {
+                app.push("${BUILD_NUMBER}")
+                app.push("latest")
             }
         }
     }
