@@ -72,11 +72,18 @@ void call() {
         //     }
         // }
 
-        withAWS(credentials: awsCredential, region: awsRegion) {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: awsCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+          sh "EXPORT AWS_ACCOUNT_ID=${USERNAME}"
           sh "aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${demoRegistry}"
           sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/${name}:${BUILD_NUMBER}"
           sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
         }
+
+        // withAWS(credentials: awsCredential, region: awsRegion) {
+        //   sh "aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${demoRegistry}"
+        //   sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/${name}:${BUILD_NUMBER}"
+        //   sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
+        // }
     }
     // stage ("Deploy To K8S") {
     //     kubeconfig(credentialsId: 'akstest', serverUrl: '') {
