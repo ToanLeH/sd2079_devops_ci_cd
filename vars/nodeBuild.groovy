@@ -10,7 +10,7 @@ void call() {
     //String[] deployBranches = ['main', 'jenkins']
     //String sonarToken = "sonar-token"
     String ecrRegistryUrl = "https://663535708029.dkr.ecr.ap-south-1.amazonaws.com"
-    String ecrCredential = 'aws-credentials'
+    String ecrCredential = 'ecr-credentials'
     String k8sCredential = 'ekstest'
     String namespace = "demo"
     //String rununitTest = "dotnet test --no-build -l:trx -c Release -p:DOTNET_RUNTIME_IDENTIFIER=linux-x64 --collect:'XPlat Code Coverage' --verbosity minimal --results-directory ./results"
