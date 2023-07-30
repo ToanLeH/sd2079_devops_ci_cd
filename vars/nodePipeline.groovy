@@ -14,21 +14,7 @@ void call(Map pipelineParams) {
         stages {
             stage ('Build Backend') {
                 when {
-                    allOf {
-                        // Condition Check
-                        changeset "**/backend/*.*"
-                        anyOf{
-                            // Branch Event: Nornal Flow
-                            anyOf {
-                                branch 'main'
-                                branch 'jenkins'
-                                branch 'PR-*'
-                            }
-                            // Manual Run: Only if checked.
-                            allOf{
-                                triggeredBy 'UserIdCause'
-                            }
-                        }
+                        changeset "./src/backend/*.*"
                     }
                 }
                 steps {
