@@ -9,7 +9,9 @@ void call() {
     //String checkBranches = "$env.BRANCH_NAME"
     //String[] deployBranches = ['main', 'jenkins']
     //String sonarToken = "sonar-token"
+    String awsRegion = "ap-south-1"
     String ecrRegistryUrl = "https://663535708029.dkr.ecr.ap-south-1.amazonaws.com"
+    String awsCredential = 'aws-credentials'
     String ecrCredential = 'ecr-credentials'
     String k8sCredential = 'ekstest'
     String namespace = "demo"
@@ -70,11 +72,10 @@ void call() {
         //     }
         // }
 
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: ecrCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-            docker.withRegistry("https://${demoRegistry}", ecrCredential ) {
-                sh "docker login ${demoRegistry} -u AWS -p ${PASSWORD}"
-                sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
-            }
+        withAWS(credentials: awsCredential, region: awsRegion) {
+          sh "aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${demoRegistry}"
+          sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/${name}:${BUILD_NUMBER}"
+          sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
         }
     }
     // stage ("Deploy To K8S") {
