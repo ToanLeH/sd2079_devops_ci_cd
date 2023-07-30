@@ -32,7 +32,7 @@ void call() {
 
     stage ("Build Solution") {
         docker.build("ecr-toanleh-devops-${name}:${BUILD_NUMBER}", " -f ./.ci/Dockerfile \
-        --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} ${WORKSPACE}") 
+        --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} ${WORKSPACE}/src/backend") 
     }
 
     stage ('Run Unit Tests') {
