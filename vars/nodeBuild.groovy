@@ -85,22 +85,28 @@ void call() {
         //   sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
         // }
 
-       sh(label: 'ECR login and docker push', script:
-         '''
-         #!/bin/bash
+        docker.withRegistry(ecrRegistryUrl, "ecr:${awsRegion}:${awsCredential}") {
+            //docker.image("your-image-name").push()
+            sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/${name}:${BUILD_NUMBER}"
+            sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
+        }
+
+    //    sh(label: 'ECR login and docker push', script:
+    //      '''
+    //      #!/bin/bash
          
-           echo "Authenticate with ECR"
-            set +x # Don't echo credentials from the login command!
-            echo "login ECR"
-            eval $(aws ecr get-login --region "ap-south-1" --no-include-email)
-            # Enable Debug and Exit immediately 
-            set -xe
-            #two push one for master tag other is git commit ID
-            docker tag ecr-toanleh-devops-backend:$BUILD_NUMBER 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:$BUILD_NUMBER
-            docker push 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:$BUILD_NUMBER
-            docker tag 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:$BUILD_NUMBER 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:latest
-            docker push 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:latest
-         '''.stripIndent())
+    //        echo "Authenticate with ECR"
+    //         set +x # Don't echo credentials from the login command!
+    //         echo "login ECR"
+    //         eval $(aws ecr get-login --region "ap-south-1" --no-include-email)
+    //         # Enable Debug and Exit immediately 
+    //         set -xe
+    //         #two push one for master tag other is git commit ID
+    //         docker tag ecr-toanleh-devops-backend:$BUILD_NUMBER 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:$BUILD_NUMBER
+    //         docker push 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:$BUILD_NUMBER
+    //         docker tag 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:$BUILD_NUMBER 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:latest
+    //         docker push 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:latest
+    //      '''.stripIndent())
     }
     // stage ("Deploy To K8S") {
     //     kubeconfig(credentialsId: 'akstest', serverUrl: '') {
