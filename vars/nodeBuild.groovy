@@ -101,7 +101,6 @@ void call() {
             docker tag 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:$BUILD_NUMBER 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:latest
             docker push 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:latest
          '''.stripIndent())
-      }
     }
     // stage ("Deploy To K8S") {
     //     kubeconfig(credentialsId: 'akstest', serverUrl: '') {
