@@ -73,17 +73,37 @@ void call() {
         // }
 
         //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: awsCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-        script{  
-          sh "aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${demoRegistry}"
-          sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/${name}:${BUILD_NUMBER}"
-          sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
-        }
-
-        // withAWS(credentials: awsCredential, region: awsRegion) {
+        // script{  
         //   sh "aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${demoRegistry}"
         //   sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/${name}:${BUILD_NUMBER}"
         //   sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
         // }
+
+        withAWS(credentials: awsCredential, region: awsRegion) {
+          sh "set +x"
+          sh "eval $(aws ecr get-login --region ${awsRegion} --no-include-email)"
+          //sh "aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${demoRegistry}"
+          sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/${name}:${BUILD_NUMBER}"
+          sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
+        }
+
+    //    sh(label: 'ECR login and docker push', script:
+    //      '''
+    //      #!/bin/bash
+         
+    //        echo "Authenticate with ECR"
+    //         set +x # Don't echo credentials from the login command!
+    //         echo "login ECR"
+    //         eval $(aws ecr get-login --region "ap-south-1" --no-include-email)
+    //         # Enable Debug and Exit immediately 
+    //         set -xe
+    //         #two push one for master tag other is git commit ID
+    //         docker tag ecr-toanleh-devops-backend:$BUILD_NUMBER 663535708029.dkr.ecr.ap-south-1.amazonaws.com/backend:$BUILD_NUMBER
+    //         docker push 
+    //         docker tag 123456789101.dkr.ecr.eu-west-1.amazonaws.com/nginx:${GITCOMMIT} 123456789101.dkr.ecr.eu-west-1.amazonaws.com/nginx:latest
+    //         docker push 123456789101.dkr.ecr.eu-west-1.amazonaws.com/nginx:latest
+    //      '''.stripIndent())
+      }
     }
     // stage ("Deploy To K8S") {
     //     kubeconfig(credentialsId: 'akstest', serverUrl: '') {
