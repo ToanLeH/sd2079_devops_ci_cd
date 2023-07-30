@@ -72,12 +72,12 @@ void call() {
         //     }
         // }
 
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: awsCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-          sh "EXPORT AWS_ACCOUNT_ID=${USERNAME}"
+        //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: awsCredential, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+          sh "export AWS_ACCOUNT_ID=663535708029"
           sh "aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${demoRegistry}"
           sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/${name}:${BUILD_NUMBER}"
           sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
-        }
+        //}
 
         // withAWS(credentials: awsCredential, region: awsRegion) {
         //   sh "aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${demoRegistry}"
