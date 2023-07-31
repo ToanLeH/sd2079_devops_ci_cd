@@ -15,7 +15,7 @@ void call(Map pipelineParams) {
             stage ('Build Backend') {
                 steps {
                     script {
-                        nodeBuild()
+                        nodeBuildBackEnd()
                     }
                 }
             }
