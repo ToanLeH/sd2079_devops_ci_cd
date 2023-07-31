@@ -19,6 +19,9 @@ void call(Map pipelineParams) {
                         anyOf {
                             branch 'main'
                             branch 'PR-*'
+                        },
+                        allOf {
+                            changeSet "**/backend/**"
                         }
                     }
                 }
