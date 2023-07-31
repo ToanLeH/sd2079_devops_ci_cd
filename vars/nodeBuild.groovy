@@ -24,8 +24,10 @@ void call() {
 //========================================================================
 
     stage ('Prepare Package') {
-        script {
-            writeFile file: '.ci/Dockerfile', text: libraryResource('node/Dockerfile')
+        dir('src/backend') {
+            script {
+                writeFile file: '.ci/Dockerfile', text: libraryResource('node/Dockerfile')
+            }
         }
     }
 
@@ -34,8 +36,10 @@ void call() {
     }
 
     stage ("Build Solution") {
-        docker.build("ecr-toanleh-devops-${name}:${BUILD_NUMBER}", " -f ./.ci/Dockerfile \
-        --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} ${WORKSPACE}/src/backend") 
+        dir('src/backend') {
+            docker.build("ecr-toanleh-devops-${name}:${BUILD_NUMBER}", " -f ./.ci/Dockerfile \
+            --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} ${WORKSPACE}/src/backend") 
+        }
     }
 
     stage ('Run Unit Tests') {
