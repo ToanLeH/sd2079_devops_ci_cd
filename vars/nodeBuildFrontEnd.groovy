@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 void call() {
     String name = "frontend"
+    String buildFolder = "frontend"
     //String runtime = "BookStore.API.dll"
     //String publishProject = "src/BookStore.API/BookStore.API.csproj"
     String baseImage     = "node"
@@ -24,10 +25,8 @@ void call() {
 //========================================================================
 
     stage ('Prepare Package') {
-        dir('src/frontend') {
-            script {
-                writeFile file: '.ci/Dockerfile', text: libraryResource('node/Dockerfile')
-            }
+        script {
+            writeFile file: '.ci/Dockerfile', text: libraryResource('node/Dockerfile')
         }
     }
 
@@ -36,10 +35,8 @@ void call() {
     }
 
     stage ("Build Solution") {
-        dir('src/frontend') {
-            docker.build("ecr-toanleh-devops-${name}:${BUILD_NUMBER}", " -f ./.ci/Dockerfile \
-            --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} ${WORKSPACE}/src/backend") 
-        }
+        docker.build("ecr-toanleh-devops-${name}:${BUILD_NUMBER}", " -f ./.ci/Dockerfile \
+        --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} ${WORKSPACE}/src/${buildFolder}") 
     }
 
     stage ('Run Unit Tests') {
