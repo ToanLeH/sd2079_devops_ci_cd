@@ -110,11 +110,16 @@ void call() {
     //      '''.stripIndent())
     }
     stage ("Deploy To K8S") {
-        kubeconfig(credentialsId: 'eks', serverUrl: '') {
-            //sh "export registry=${demoRegistry}; export appname=${name}; export tag=${BUILD_NUMBER}; \
-            //envsubst < .ci/deployment.yml > deployment.yml; envsubst < .ci/service.yml > service.yml"
-            //sh "kubectl apply -f deployment.yml -n ${namespace}"
-            //sh "kubectl apply -f service.yml -n ${namespace}"
+        // kubeconfig(credentialsId: 'eks', serverUrl: '') {
+        //     //sh "export registry=${demoRegistry}; export appname=${name}; export tag=${BUILD_NUMBER}; \
+        //     //envsubst < .ci/deployment.yml > deployment.yml; envsubst < .ci/service.yml > service.yml"
+        //     //sh "kubectl apply -f deployment.yml -n ${namespace}"
+        //     //sh "kubectl apply -f service.yml -n ${namespace}"
+        //     sh "kubectl get pods"
+        // }
+
+        docker.withRegistry(ecrRegistryUrl, "ecr:${awsRegion}:${awsCredential}") {
+            sh "aws eks --region ap-south-1 update-kubeconfig --name eks-dev"
             sh "kubectl get pods"
         }
     }
