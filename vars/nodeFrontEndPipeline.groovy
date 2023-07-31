@@ -13,6 +13,18 @@ void call(Map pipelineParams) {
         
         stages {
             stage ('Build Backend') {
+                when {
+                    allOf {
+                        // Branch Event: Nornal Flow
+                        anyOf {
+                            branch 'main'
+                            branch 'PR-*'
+                        }
+                        allOf {
+                            changeset "**/frontend/**"
+                        }
+                    }
+                }
                 steps {
                     script {
                         nodeBuildFrontEnd()
