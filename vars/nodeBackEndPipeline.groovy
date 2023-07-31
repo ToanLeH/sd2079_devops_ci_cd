@@ -24,7 +24,7 @@ void call(Map pipelineParams) {
                             }
                             // Manual Run: Only if checked.
                             allOf{
-                                changeset: '**/backend/**'
+                                changeset: "**/backend/**"
                             }
                         }
                     }
