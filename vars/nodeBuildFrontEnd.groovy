@@ -24,7 +24,7 @@ void call() {
 //========================================================================
 
     stage ('Prepare Package') {
-        dir('src/backend') {
+        dir('src/frontend') {
             script {
                 writeFile file: '.ci/Dockerfile', text: libraryResource('node/Dockerfile')
             }
@@ -36,7 +36,7 @@ void call() {
     }
 
     stage ("Build Solution") {
-        dir('src/backend') {
+        dir('src/frontend') {
             docker.build("ecr-toanleh-devops-${name}:${BUILD_NUMBER}", " -f ./.ci/Dockerfile \
             --build-arg BASEIMG=${baseImage} --build-arg IMG_VERSION=${baseTag} ${WORKSPACE}/src/backend") 
         }
