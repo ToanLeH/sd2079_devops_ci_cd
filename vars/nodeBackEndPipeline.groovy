@@ -15,17 +15,10 @@ void call(Map pipelineParams) {
             stage ('Build Backend') {
                 when {
                     allOf {
-                        // Condition Check
-                        anyOf{
-                            // Branch Event: Nornal Flow
-                            anyOf {
-                                branch 'main'
-                                branch 'PR-*'
-                            }
-                            // Manual Run: Only if checked.
-                            allOf{
-                                changeset: "**/backend/**"
-                            }
+                        // Branch Event: Nornal Flow
+                        anyOf {
+                            branch 'main'
+                            branch 'PR-*'
                         }
                     }
                 }
