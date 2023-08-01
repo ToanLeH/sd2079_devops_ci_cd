@@ -17,6 +17,7 @@ void call() {
     String ecrCredential = 'ecr-credentials'
     String k8sCredential = 'ekstest'
     String namespace = "demo"
+    String releaseVersion = "10"
     //String rununitTest = "dotnet test --no-build -l:trx -c Release -p:DOTNET_RUNTIME_IDENTIFIER=linux-x64 --collect:'XPlat Code Coverage' --verbosity minimal --results-directory ./results"
 
 //========================================================================
@@ -33,7 +34,7 @@ void call() {
 
     stage ("Deploy Frontend To K8S") {
         docker.withRegistry(ecrRegistryUrl, "ecr:${awsRegion}:${awsCredential}") {
-            sh "export registry=${demoRegistry}; export appname=${name}; export tag=latest; \
+            sh "export registry=${demoRegistry}; export appname=${name}; export tag=${releaseVersion}; \
             envsubst < .ci/service/deployment.yml > deployment.yml; envsubst < .ci/service/service.yml > service.yml"
             sh "aws eks --region ${awsRegion} update-kubeconfig --name ${eksName}"
             sh "kubectl apply -f deployment.yml"
