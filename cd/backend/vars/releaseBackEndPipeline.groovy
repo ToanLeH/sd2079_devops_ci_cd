@@ -22,6 +22,7 @@ void call(Map pipelineParams) {
                         }
                         allOf {
                             changeset "**/cd/backend/**"
+                            changeset "**/cd/resources/**"
                         }
                     }
                 }
