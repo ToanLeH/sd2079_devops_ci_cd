@@ -21,8 +21,6 @@ void call(Map pipelineParams) {
                             branch 'PR-*'
                         }
                         anyOf {
-                            changeset "**/cd/backend/**"
-                            changeset "**/cd/resources/**"
                             changeset "*"
                         }
                     }
