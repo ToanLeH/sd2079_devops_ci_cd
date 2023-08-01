@@ -20,9 +20,6 @@ void call(Map pipelineParams) {
                             branch 'main'
                             branch 'PR-*'
                         }
-                        anyOf {
-                            changeset "*"
-                        }
                     }
                 }
                 steps {
