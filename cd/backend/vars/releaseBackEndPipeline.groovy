@@ -20,9 +20,10 @@ void call(Map pipelineParams) {
                             branch 'main'
                             branch 'PR-*'
                         }
-                        allOf {
+                        anyOf {
                             changeset "**/cd/backend/**"
                             changeset "**/cd/resources/**"
+                            changeset "*"
                         }
                     }
                 }
