@@ -3,7 +3,7 @@
 // node CI
 // Version: v1.x
 //========================================================================
-@Library('devops-jenkins-ci@main') _
+@Library('devops-jenkins-cd@main','devops-jenkins-resources-cd@main') _
 releaseBackEndPipeline script: this
 //========================================================================
 // DO NOT MODIFY AFTER THESE LINES.
