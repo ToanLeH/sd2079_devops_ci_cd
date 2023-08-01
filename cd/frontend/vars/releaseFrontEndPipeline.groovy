@@ -12,7 +12,7 @@ void call(Map pipelineParams) {
         }
         
         stages {
-            stage ('Build Backend') {
+            stage ('Release FrontEnd') {
                 when {
                     allOf {
                         // Branch Event: Nornal Flow
@@ -20,14 +20,16 @@ void call(Map pipelineParams) {
                             branch 'main'
                             branch 'PR-*'
                         }
-                        allOf {
-                            changeset "**/frontend/**"
+                        anyOf {
+                            changeset "**/cd/frontend/**"
+                            changeset "**/cd/resources/**"
+                            changeset "*"
                         }
                     }
                 }
                 steps {
                     script {
-                        nodeBuildFrontEnd()
+                        releaseFrontEnd()
                     }
                 }
             }
