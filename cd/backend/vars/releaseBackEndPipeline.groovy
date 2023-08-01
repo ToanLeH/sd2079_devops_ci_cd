@@ -21,7 +21,7 @@ void call(Map pipelineParams) {
                             branch 'PR-*'
                         }
                         allOf {
-                            changeset "**/vars/.cd/backend/**"
+                            changeset "**/cd/backend/**"
                         }
                     }
                 }
