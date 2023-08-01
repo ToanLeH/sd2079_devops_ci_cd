@@ -91,6 +91,9 @@ void call() {
             //docker.image("your-image-name").push()
             sh "docker tag ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
             sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER}"
+
+            sh "docker tag ${demoRegistry}/ecr-toanleh-devops-${name}:${BUILD_NUMBER} ${demoRegistry}/ecr-toanleh-devops-${name}:latest"
+            sh "docker push ${demoRegistry}/ecr-toanleh-devops-${name}:latest"
         }
 
     //    sh(label: 'ECR login and docker push', script:
