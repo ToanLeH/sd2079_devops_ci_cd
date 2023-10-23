@@ -46,8 +46,8 @@ void call() {
             //sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
 
             // Scan all vuln levels
-            sh 'sudo mkdir -p reports'
-            sh 'sudo trivy filesystem --ignore-unfixed --vuln-type os,library --format template --template "@html.tpl" -o reports/nodjs-scan.html ./nodejs'
+            sh 'mkdir -p reports'
+            sh 'trivy filesystem --ignore-unfixed --vuln-type os,library --format template --template "@html.tpl" -o reports/nodjs-scan.html ./nodejs'
             publishHTML target : [
                 allowMissing: true,
                 alwaysLinkToLastBuild: true,
@@ -59,7 +59,7 @@ void call() {
             ]
 
             // Scan again and fail on CRITICAL vulns
-            sh 'sudo trivy filesystem --ignore-unfixed --vuln-type os,library --exit-code 1 --severity CRITICAL ./nodejs'
+            sh 'trivy filesystem --ignore-unfixed --vuln-type os,library --exit-code 1 --severity CRITICAL ./nodejs'
 
         }
     }
