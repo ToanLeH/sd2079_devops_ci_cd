@@ -43,12 +43,12 @@ void call() {
         script {
             // Install trivy
             //sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.18.3'
-            sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
+            //sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
 
             // Scan all vuln levels
             sh "mkdir -p reports"
             sh "wget https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl"
-            sh "trivy filesystem --ignore-unfixed --vuln-type os,library --format template --template '@html.tpl' -o reports/nodjs-scan.html ${WORKSPACE}/src/${buildFolder}"
+            sh "trivy filesystem --ignore-unfixed --vuln-type os,library --format template --template 'html.tpl' -o reports/nodjs-scan.html ${WORKSPACE}/src/${buildFolder}"
             publishHTML target : [
                 allowMissing: true,
                 alwaysLinkToLastBuild: true,
